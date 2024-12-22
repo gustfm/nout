@@ -1,0 +1,5 @@
+Dia 11 de novembro
+-> Terminar a funcionalidade de criar nova nota adicionando no banco de dados
+
+Dia 12/13 de novembro
+-> Criar funcionalidade de criação de pastas
