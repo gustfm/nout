@@ -1,5 +1,5 @@
 <template>
-    <p v-if="resume" class="text-sm font-bold text-nowrap text-ellipsis overflow-hidden">{{ resume }}</p>
+    <p v-if="title" class="text-sm font-bold text-nowrap text-ellipsis overflow-hidden">{{ title }}</p>
     <p v-else class="text-sm text-nowrap text-ellipsis overflow-hidden italic text-slate-700">New note</p>
 </template>
 
@@ -10,8 +10,8 @@ import LocalizedFormat from "dayjs/plugin/localizedFormat";
 dayjs.extend(LocalizedFormat);
 
 interface Props {
-    resume: string;
+    title: string;
 }
 
-const { resume } = defineProps<Props>();
+const { title } = defineProps<Props>();
 </script>

@@ -4,42 +4,54 @@
             <p class="text-lg text-gray-800 font-normal">No note selected</p>
         </div>
         <div v-else class="h-full flex flex-col w-full">
-            <NoteContainerHeader @deleteNote="deleteNote(selectedNote.id)" />
-            <Editor v-model="noteContent" />
+            <NoteContainerHeader
+                :isSavingSelectedNote="isSavingSelectedNote"
+                @deleteNote="deleteNote(selectedNote.id)"
+                @saveCurrentNoteContent="saveCurrentNoteContent()"
+            />
+            <NoteEditor v-model="noteContent"/>
         </div>
     </div>
 </template>
 
-<script lang="ts" setup>
-import { computed, WritableComputedRef } from "vue";
-import Editor from "./Editor.vue";
-import Note from "../Note/Note";
+<script lang="ts">
+import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
+import Note from "../Notes/Models/Note";
+import NoteEditor from "./NoteEditor.vue";
 import NoteContainerHeader from "./NoteContainerHeader.vue";
+import EditorContent from "./Models/EditorContent";
 
-interface Props {
-    selectedNote: Note | null;
+@Component({
+    components: { NoteEditor, NoteContainerHeader },
+    emits: ["update:content", "deleteNote", "saveCurrentNoteContent"],
+})
+class NoteContainer extends Vue {
+    @Prop() public selectedNote: Note | null;
+    @Prop() public readonly isSavingSelectedNote: boolean;
+
+    public get noteContent() {
+        return this.selectedNote.content;
+    }
+
+    public set noteContent(content: string) {
+        this.selectedNote.content = content;
+    }
+
+    // public setTitle(content: EditorContent) {
+    //     const breakIndex = content.raw?.indexOf("\n") ?? 27;
+    //     this.selectedNote.title = content.raw?.slice(0, breakIndex);
+    // }
+
+    public deleteNote(id: number) {
+        this.$emit("deleteNote", id);
+    }
+
+    public saveCurrentNoteContent() {
+        this.$emit("saveCurrentNoteContent");
+    }
 }
 
-interface Emits {
-    (event: "update:content", value: string): void;
-    (event: "deleteNote", selectedNoteId: number): void;
-}
-
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
-
-const noteContent: WritableComputedRef<string> = computed({
-    get() {
-        return props.selectedNote?.content;
-    },
-    set(value: string) {
-        emit("update:content", value);
-    },
-});
-
-const deleteNote = (id: number) => {
-    emit("deleteNote", id);
-};
+export default toNative(NoteContainer);
 </script>
 
 <style lang="scss">

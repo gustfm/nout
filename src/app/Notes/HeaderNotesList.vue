@@ -1,23 +1,27 @@
 <template>
     <header class="header-notes-list flex justify-end">
-        <button class="border-0 rounded p-1.5" @click="createNote()"><PlusIcon /></button>
+        <button class="ghost-button" @click="createNote()"><PlusIcon /></button>
     </header>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import { PlusIcon } from "@heroicons/vue/24/outline";
+import { Component, toNative, Vue } from "vue-facing-decorator";
 
-interface Emits {
-    (event: "createNote"): void;
+@Component({
+    components: { PlusIcon },
+})
+class HeaderNotesList extends Vue {
+    public createNote() {
+        this.$emit("createNote");
+    }
 }
 
-const emit = defineEmits<Emits>();
-
-const createNote = () => emit("createNote");
+export default toNative(HeaderNotesList);
 </script>
 
 <style scoped lang="scss">
-@import "../../styles/vars.scss";
+@use "../../styles/vars.scss" as *;
 
 .header-notes-list {
     padding: 8px;

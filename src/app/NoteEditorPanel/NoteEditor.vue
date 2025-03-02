@@ -2,45 +2,47 @@
     <editor-content class="editor-content" :editor="editorWrapper" />
 </template>
 
-<script lang="ts" setup>
-import StarterKit from "@tiptap/starter-kit";
+<script lang="ts">
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
-import { EditorContent, useEditor } from "@tiptap/vue-3";
-import { watch } from "vue";
+import StarterKit from "@tiptap/starter-kit";
+import { useEditor } from "@tiptap/vue-3";
+import { Prop, toNative, Vue, Watch, Component } from "vue-facing-decorator";
 
-interface Props {
-    modelValue: String;
-}
+@Component({})
+class NoteEditor extends Vue {
+    @Prop() public modelValue: string;
 
-interface Emits {
-    (event: "update:modelValue", value: String | null): void;
-}
+    public editorWrapper: any = null;
 
-const { modelValue } = defineProps<Props>();
-const emit = defineEmits<Emits>();
+    public created() {
+        this.editorWrapper = useEditor({
+            extensions: [StarterKit, Highlight, Typography],
+            autofocus: "end",
+            content: this.modelValue,
+            parseOptions: {
+                preserveWhitespace: "full",
+            },
+            onUpdate: () => {
+                this.$emit("update:modelValue", this.editorWrapper.value.getHTML());
+            },
+        });
+    }
 
-watch(
-    () => modelValue,
-    (value) => {
-        const isSame = editorWrapper.value.getHTML() === value;
+    @Watch("modelValue")
+    public onModelValueChanged(value: string) {
+        const isSame = this.editorWrapper.getHTML() === value;
 
         if (isSame) {
             return;
         }
 
-        editorWrapper.value.commands.setContent(value, false);
+        this.editorWrapper.value.commands.setContent(value, false);
+        this.$emit("contentUpdated", { html: value, raw: this.editorWrapper.value.getText() });
     }
-);
+}
 
-const editorWrapper = useEditor({
-    extensions: [StarterKit, Highlight, Typography],
-    autofocus: "end",
-    content: modelValue,
-    onUpdate: () => {
-        emit("update:modelValue", editorWrapper.value.getHTML());
-    },
-});
+export default toNative(NoteEditor);
 </script>
 
 <style>
@@ -56,7 +58,7 @@ const editorWrapper = useEditor({
 </style>
 
 <style lang="scss">
-@import "../../styles/vars.scss";
+@use "../../styles/vars.scss" as *;
 
 .tiptap {
     font-size: 0.9rem;

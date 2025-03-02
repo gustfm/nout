@@ -12,10 +12,20 @@ export default class DatabaseHandler {
         await db.exec(
             `CREATE TABLE IF NOT EXISTS notes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                resume VARCHAR(128),
                 content TEXT,
-                created_at DATE DEFAULT current_date
-            )`
+                title TEXT,
+                created_at DATE DEFAULT current_date,
+                folder_id INTEGER,
+
+                FOREIGN KEY (folder_id) REFERENCES folders(id)
+            );
+
+            CREATE TABLE IF NOT EXISTS folders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name VARCHAR(240)
+            );
+
+            `
         );
     }
 }

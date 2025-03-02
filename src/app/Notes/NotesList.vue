@@ -2,6 +2,7 @@
     <div class="notes-list flex flex-col">
         <HeaderNotesList @createNote="createNote" />
         <div v-if="isLoadingNotes && notes?.length">Loading...</div>
+        <div v-if="!isLoadingNotes && !notes?.length">🧐</div>
         <ul v-else class="overflow-scroll h-100 small-scroll">
             <NoteItem
                 v-for="note in notes"
@@ -14,27 +15,31 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import Note from "../Note/Note";
-import HeaderNotesList from "./HeaderNotesList.vue";
+<script lang="ts">
+import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
+import Note from "./Models/Note";
 import NoteItem from "./NoteItem.vue";
+import HeaderNotesList from "./HeaderNotesList.vue";
 
-interface Props {
-    notes: Array<Note> | null;
-    selectedNote: Note | null;
-    isLoadingNotes: boolean;
+@Component({
+    components: { HeaderNotesList, NoteItem },
+    emits: ["selectNote"],
+})
+class NotesList extends Vue {
+    @Prop() public notes: Array<Note>;
+    @Prop() public selectedNote: Note;
+    @Prop() public isLoadingNotes: boolean;
+
+    public selectNote(id: number): void {
+        this.$emit("selectNote", id);
+    }
+
+    public createNote(): void {
+        this.$emit("createNote");
+    }
 }
 
-interface Emits {
-    (event: "selectNote", value: number | null): void;
-    (event: "createNote"): void;
-}
-
-const { isLoadingNotes, selectedNote, notes } = defineProps<Props>();
-const emit = defineEmits<Emits>();
-
-const selectNote = (id: number) => emit("selectNote", id);
-const createNote = () => emit("createNote");
+export default toNative(NotesList);
 </script>
 
 <style scoped>

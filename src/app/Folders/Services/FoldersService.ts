@@ -1,0 +1,33 @@
+import { orderBy } from "lodash";
+import FoldersRepository from "src/Repository/FoldersRepository";
+import Folder from "../Models/Folder";
+
+export default class FoldersService {
+    public folders: Array<Folder> = [];
+    public selectedFolder: Folder = null;
+    public isFoldersLoaded = false;
+
+    public constructor(private readonly foldersRepository: FoldersRepository) {}
+
+    public async loadFolders(): Promise<void> {
+        const results = await this.foldersRepository.getAll();
+        this.folders = orderBy(results, ["createdAt"], ["desc"]);
+        this.isFoldersLoaded = true;
+    }
+
+    public getFolder(id: number): Folder {
+        return this.folders.find((folder: Folder) => folder.id === id);
+    }
+
+    public async createFolder(folderName: string): Promise<void> {
+        console.log(this.foldersRepository);
+        const createdFolder = await this.foldersRepository.createFolder(folderName);
+        this.folders = [createdFolder, ...this.folders];
+        await this.loadFolders();
+    }
+
+    public selectFolder(folderId: number) {
+        const folder = this.getFolder(folderId);
+        this.selectedFolder = folder;
+    }
+}
