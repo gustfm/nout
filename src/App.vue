@@ -27,8 +27,8 @@ import { Component, toNative, Vue } from "vue-facing-decorator";
 import FoldersList from "./app/Folders/FoldersList.vue";
 import NoteContainer from "./app/NoteEditorPanel/NoteContainer.vue";
 import NotesList from "./app/Notes/NotesList.vue";
-import FoldersRepository from "./Repository/FoldersRepository";
-import NotesRepository from "./Repository/NotesRepository";
+import FoldersRepository from "./repositories/FoldersRepository";
+import NotesRepository from "./repositories/NotesRepository";
 import NotesService from "./app/Notes/Services/NotesService";
 import FoldersService from "./app/Folders/Services/FoldersService";
 

@@ -1,5 +1,5 @@
 import { orderBy } from "lodash";
-import FoldersRepository from "src/Repository/FoldersRepository";
+import FoldersRepository from "src/repositories/FoldersRepository";
 import Folder from "../Models/Folder";
 
 export default class FoldersService {

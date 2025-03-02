@@ -1,5 +1,5 @@
 import { orderBy } from "lodash";
-import NotesRepository from "src/Repository/NotesRepository";
+import NotesRepository from "src/repositories/NotesRepository";
 import Note from "../Models/Note";
 
 export default class NotesService {

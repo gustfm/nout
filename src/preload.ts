@@ -1,8 +1,8 @@
 import { contextBridge } from "electron";
-import DatabaseHandler from "./Repository/DatabaseHandler";
-import NotesRepository from "./Repository/NotesRepository";
+import DatabaseHandler from "./repositories/DatabaseHandler";
+import NotesRepository from "./repositories/NotesRepository";
 import Note from "./app/Notes/Models/Note";
-import FoldersRepository from "./Repository/FoldersRepository";
+import FoldersRepository from "./repositories/FoldersRepository";
 
 declare global {
     interface Window {

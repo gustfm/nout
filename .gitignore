@@ -92,3 +92,6 @@ typings/
 out/
 
 src/resources/database.db
+src/resources/
+./src/resources/database.db
+./src/resources/
