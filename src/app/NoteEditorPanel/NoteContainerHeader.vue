@@ -17,7 +17,7 @@ import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
 class NoteContainerHeader extends Vue {
     @Prop() public readonly isSavingSelectedNote: boolean;
 
-    public deleteNote() {
+    public deleteNote() { 
         this.$emit("deleteNote");
     }
     

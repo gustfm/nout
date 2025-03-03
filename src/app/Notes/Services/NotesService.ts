@@ -62,7 +62,7 @@ export default class NotesService {
 
     private generateNote(folderId: number): Note {
         return {
-            // title: "",
+            title: "",
             content: "",
             folderId,
         };

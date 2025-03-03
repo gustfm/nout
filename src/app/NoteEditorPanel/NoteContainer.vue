@@ -9,7 +9,7 @@
                 @deleteNote="deleteNote(selectedNote.id)"
                 @saveCurrentNoteContent="saveCurrentNoteContent()"
             />
-            <NoteEditor v-model="noteContent"/>
+            <NoteEditor v-model="noteContent" :contentUpdated="setTitle"/>
         </div>
     </div>
 </template>
@@ -37,10 +37,10 @@ class NoteContainer extends Vue {
         this.selectedNote.content = content;
     }
 
-    // public setTitle(content: EditorContent) {
-    //     const breakIndex = content.raw?.indexOf("\n") ?? 27;
-    //     this.selectedNote.title = content.raw?.slice(0, breakIndex);
-    // }
+    public setTitle(content: EditorContent) {
+        const breakIndex = content.raw?.indexOf("\n") ?? 27;
+        this.selectedNote.title = content.raw?.slice(0, breakIndex);
+    }
 
     public deleteNote(id: number) {
         this.$emit("deleteNote", id);
