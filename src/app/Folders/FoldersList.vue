@@ -1,7 +1,8 @@
 <template>
     <ul class="folders-list-container">
         <h6 class="text-xs font-semibold my-1">Folders</h6>
-        <div class="folders-list">
+        <Empty v-if="isFoldersEmpty" class="folders-list" icon="🗂️" message="No folders created yet" />
+        <div v-else class="folders-list">
             <FolderItem
                 v-for="folder in folders"
                 :key="folder.id"
@@ -20,14 +21,19 @@ import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
 import NewFolderModal from "../../app/Folders/Components/NewFolderModal.vue";
 import FolderItem from "./FolderItem.vue";
 import Folder from "./Models/Folder";
+import Empty from "../Common/Components/Empty.vue";
 
 @Component({
-    components: { FolderItem, NewFolderModal },
+    components: { FolderItem, NewFolderModal, Empty },
     emits: ["selectFolder", "createFolder"],
 })
 class FoldersList extends Vue {
     @Prop() public folders: Array<Folder>;
     @Prop() public selectedFolder: Folder;
+
+    public get isFoldersEmpty(): boolean {
+        return !this.folders?.length;
+    }
 
     public selectFolder(id: number) {
         this.$emit("selectFolder", id);

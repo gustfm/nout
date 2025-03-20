@@ -9,7 +9,7 @@
         <NotesList
             :notes="notesService.notes"
             :selectedNote="notesService.selectedNote"
-            :isLoadingNotes="notesService.isLoadingNotes"
+            :isLoadingNotes="isLoadingNotes"
             @selectNote="selectNote"
             @createNote="createNote"
         />
@@ -47,6 +47,10 @@ class App extends Vue {
 
     public get isSavingSelectedNote(): boolean {
         return this.notesService?.isSavingSelectedNote;
+    }
+
+    public get isLoadingNotes(): boolean {
+        return this.notesService.isLoadingNotes;
     }
 
     public async mounted() {

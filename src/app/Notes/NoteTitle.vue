@@ -1,6 +1,6 @@
 <template>
     <p v-if="title" class="text-sm font-bold text-nowrap text-ellipsis overflow-hidden">{{ title }}</p>
-    <p v-else class="text-sm text-nowrap text-ellipsis overflow-hidden italic text-slate-700">New note</p>
+    <p v-else class="text-sm text-nowrap text-ellipsis overflow-hidden italic text-slate-700">Empty note</p>
 </template>
 
 <script lang="ts" setup>

@@ -1,26 +1,33 @@
 <template>
     <header class="note-container-header flex justify-between items-center">
-        <button class="ghost-button" :disabled="isSavingSelectedNote" @click="deleteNote()"><TrashIcon /></button>
+        <Button type="ghost" :disabled="isSavingSelectedNote" @click="deleteNote()">
+            <template #icon>
+                <TrashIcon />
+            </template>
+        </Button>
         <small class="text-gray-500 mr-2" v-if="isSavingSelectedNote">saving note...</small>
-        <button class="save-button primary-button" :disabled="isSavingSelectedNote" @click="saveCurrentNoteContent()">Save</button>
+        <Button class="save-button" type="primary" :disabled="isSavingSelectedNote" @click="saveCurrentNoteContent()">
+            Save
+        </Button>
     </header>
 </template>
 
 <script lang="ts">
 import { TrashIcon } from "@heroicons/vue/24/outline";
 import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
+import Button from "../Common/Components/Button.vue";
 
 @Component({
-    components: { TrashIcon },
-    emits: ['deleteNote', 'saveCurrentNoteContent']
+    components: { TrashIcon, Button },
+    emits: ["deleteNote", "saveCurrentNoteContent"],
 })
 class NoteContainerHeader extends Vue {
     @Prop() public readonly isSavingSelectedNote: boolean;
 
-    public deleteNote() { 
+    public deleteNote() {
         this.$emit("deleteNote");
     }
-    
+
     public saveCurrentNoteContent() {
         this.$emit("saveCurrentNoteContent");
     }

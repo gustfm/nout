@@ -1,44 +1,41 @@
 <template>
-    <editor-content class="editor-content" :editor="editorWrapper" />
+    <EditorContent v-if="editorWrapper" class="editor-content" :editor="editorWrapper" />
 </template>
 
 <script lang="ts">
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import StarterKit from "@tiptap/starter-kit";
-import { useEditor } from "@tiptap/vue-3";
+import { Editor, EditorContent, useEditor } from "@tiptap/vue-3";
 import { Prop, toNative, Vue, Watch, Component } from "vue-facing-decorator";
 
-@Component({})
+@Component({
+    components: { EditorContent },
+    emits: ["contentUpdated", "update:modelValue"],
+})
 class NoteEditor extends Vue {
     @Prop() public modelValue: string;
 
     public editorWrapper: any = null;
 
     public created() {
-        this.editorWrapper = useEditor({
+        this.editorWrapper = new Editor({
             extensions: [StarterKit, Highlight, Typography],
             autofocus: "end",
             content: this.modelValue,
             parseOptions: {
                 preserveWhitespace: "full",
             },
-            onUpdate: () => {
-                this.$emit("update:modelValue", this.editorWrapper.value.getHTML());
+            onUpdate: ({ editor }) => {
+                this.$emit("update:modelValue", editor.getHTML());
             },
         });
     }
 
     @Watch("modelValue")
     public onModelValueChanged(value: string) {
-        const isSame = this.editorWrapper.getHTML() === value;
-
-        if (isSame) {
-            return;
-        }
-
-        this.editorWrapper.value.commands.setContent(value, false);
-        this.$emit("contentUpdated", { html: value, raw: this.editorWrapper.value.getText() });
+        // this.editorWrapper.commands.setContent(value, false);
+        this.$emit("contentUpdated", { html: value, raw: this.editorWrapper.getText() });
     }
 }
 

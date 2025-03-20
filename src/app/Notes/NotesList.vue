@@ -1,8 +1,8 @@
 <template>
     <div class="notes-list flex flex-col">
         <HeaderNotesList @createNote="createNote" />
-        <div v-if="isLoadingNotes && notes?.length">Loading...</div>
-        <div v-if="!isLoadingNotes && !notes?.length">🧐</div>
+        <div v-if="isLoadingNotes">Loading...</div>
+        <Empty v-else-if="isNotesEmpty" icon="📚" message="No notes created yet" />
         <ul v-else class="overflow-scroll h-100 small-scroll">
             <NoteItem
                 v-for="note in notes"
@@ -20,15 +20,20 @@ import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
 import Note from "./Models/Note";
 import NoteItem from "./NoteItem.vue";
 import HeaderNotesList from "./HeaderNotesList.vue";
+import Empty from "../Common/Components/Empty.vue";
 
 @Component({
-    components: { HeaderNotesList, NoteItem },
+    components: { HeaderNotesList, NoteItem, Empty },
     emits: ["selectNote"],
 })
 class NotesList extends Vue {
     @Prop() public notes: Array<Note>;
     @Prop() public selectedNote: Note;
     @Prop() public isLoadingNotes: boolean;
+
+    public get isNotesEmpty(): boolean {
+        return !this.notes?.length;
+    }
 
     public selectNote(id: number): void {
         this.$emit("selectNote", id);

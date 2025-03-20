@@ -5,19 +5,16 @@ import Note from "../Models/Note";
 export default class NotesService {
     public notes: Array<Note> = [];
     public selectedNote: Note = null;
-    public isNotesLoaded: boolean = false;
     public isSavingSelectedNote: boolean = false;
+    public isLoadingNotes: boolean = false;
 
     public constructor(private readonly notesRepository: NotesRepository) {}
 
-    public get isLoadingNotes(): boolean {
-        return !this.isNotesLoaded;
-    }
-
     public async loadRelatedNotes(folderId: number) {
+        this.isLoadingNotes = true;
         const results = await this.notesRepository.getAllById(folderId);
         this.notes = orderBy(results, ["createdAt"], ["desc"]);
-        this.isNotesLoaded = true;
+        this.isLoadingNotes = false;
     }
 
     public async createNote(currentFolderId: number) {
@@ -44,7 +41,6 @@ export default class NotesService {
                 return;
             }
             const note = this.notes.find((note: Note) => note.id === id);
-            console.log(note);
             this.selectedNote = note;
         } catch (err) {
             console.error(err);

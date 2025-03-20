@@ -1,7 +1,7 @@
 <template>
     <button class="button" :disabled="disabled" :class="[buttonStyle, fullWidth, buttonSize]" @click="$emit('click')">
-        <slot v-if="hasIconContent" name="icon" />
-        <span v-if="hasTextContent" class="leading-none ml-2"><slot /></span>
+        <slot v-if="hasIconContent" name="icon" class="mr-2" />
+        <span v-if="hasTextContent" class="leading-none button-text"><slot /></span>
     </button>
 </template>
 
@@ -93,6 +93,10 @@ export default toNative(Button);
     }
     &.normal {
         font-size: 14px !important;
+    }
+    .button-text {
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 }
 </style>

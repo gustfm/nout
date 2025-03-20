@@ -1,15 +1,13 @@
 <template>
     <div class="note-container">
-        <div v-if="!selectedNote" class="w-full h-full flex flex-col justify-center items-center">
-            <p class="text-lg text-gray-800 font-normal">No note selected</p>
-        </div>
+        <Empty v-if="!selectedNote" icon="📒" message="No note selected" />
         <div v-else class="h-full flex flex-col w-full">
             <NoteContainerHeader
                 :isSavingSelectedNote="isSavingSelectedNote"
                 @deleteNote="deleteNote(selectedNote.id)"
                 @saveCurrentNoteContent="saveCurrentNoteContent()"
             />
-            <NoteEditor v-model="noteContent" :contentUpdated="setTitle"/>
+            <NoteEditor v-model="noteContent" @contentUpdated="setTitle" />
         </div>
     </div>
 </template>
@@ -20,9 +18,10 @@ import Note from "../Notes/Models/Note";
 import NoteEditor from "./NoteEditor.vue";
 import NoteContainerHeader from "./NoteContainerHeader.vue";
 import EditorContent from "./Models/EditorContent";
+import Empty from "../Common/Components/Empty.vue";
 
 @Component({
-    components: { NoteEditor, NoteContainerHeader },
+    components: { NoteEditor, NoteContainerHeader, Empty },
     emits: ["update:content", "deleteNote", "saveCurrentNoteContent"],
 })
 class NoteContainer extends Vue {
@@ -38,8 +37,9 @@ class NoteContainer extends Vue {
     }
 
     public setTitle(content: EditorContent) {
-        const breakIndex = content.raw?.indexOf("\n") ?? 27;
-        this.selectedNote.title = content.raw?.slice(0, breakIndex);
+        const breakIndex = content.raw?.indexOf("\n");
+        this.selectedNote.title = content.raw?.slice(0, breakIndex > 0 ? breakIndex + 1 : 27);
+        console.log(this.selectedNote.title);
     }
 
     public deleteNote(id: number) {

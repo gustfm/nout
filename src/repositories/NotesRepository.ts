@@ -24,6 +24,7 @@ export default class NotesRepository {
         const db = await this.getDb();
         const result = await db.run(
             "INSERT INTO notes (title, content, folder_id) VALUES (?,?,?)",
+            note.title,
             note.content,
             note.folderId
         );
