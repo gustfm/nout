@@ -1,7 +1,7 @@
 <template>
     <div class="notes-list flex flex-col">
         <HeaderNotesList @createNote="createNote" />
-        <div v-if="isLoadingNotes">Loading...</div>
+        <Skeleton v-if="isLoadingNotes" />
         <Empty v-else-if="isNotesEmpty" icon="📚" message="No notes created yet" />
         <ul v-else class="overflow-scroll h-100 small-scroll">
             <NoteItem
@@ -21,9 +21,10 @@ import Note from "./Models/Note";
 import NoteItem from "./NoteItem.vue";
 import HeaderNotesList from "./HeaderNotesList.vue";
 import Empty from "../Common/Components/Empty.vue";
+import Skeleton from "../Common/Components/Skeleton.vue";
 
 @Component({
-    components: { HeaderNotesList, NoteItem, Empty },
+    components: { HeaderNotesList, NoteItem, Empty, Skeleton },
     emits: ["selectNote"],
 })
 class NotesList extends Vue {
