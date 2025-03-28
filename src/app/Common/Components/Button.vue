@@ -1,5 +1,5 @@
 <template>
-    <button class="button" :disabled="disabled" :class="[buttonStyle, fullWidth, buttonSize]" @click="$emit('click')">
+    <button class="button" :disabled="disabled" :class="[buttonStyle, fullWidth, buttonSize]" @click="handleClick">
         <span v-if="hasIconContent" class="button-icon mr-2"><slot name="icon" /></span>
         <span v-if="hasTextContent" class="leading-none button-text"><slot /></span>
     </button>
@@ -55,6 +55,10 @@ class Button extends Vue {
 
     public get hasIconContent(): boolean {
         return !!this.$slots.icon;
+    }
+
+    public handleClick(evt: MouseEvent): void {
+        this.$emit("click", evt);
     }
 }
 

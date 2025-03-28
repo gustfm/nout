@@ -37,7 +37,7 @@
 <script lang="ts">
 import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import { Component, toNative, Vue } from "vue-facing-decorator";
-import { useDropdown } from "../Composables/useDropdown";
+import { useDropdown } from "../../Common/Composables/useDropdown";
 import Button from "../../../app/Common/Components/Button.vue";
 
 @Component({
