@@ -1,7 +1,7 @@
 <template>
     <li class="note-item cursor-pointer mb-2" :class="{ 'is-selected': isSelected }" @click="selectNote(note.id)">
         <NoteTitle :title="useTagsStrip.stripHtmlTags(note.title)" />
-        <NoteDescription :content="useTagsStrip.stripHtmlTags(note.content)" />
+        <NoteDescription :content="noteContent" />
         <p class="text-xs text-nowrap text-ellipsis overflow-hidden text-slate-600">{{ formatDate(note.createdAt) }}</p>
     </li>
 </template>
@@ -26,6 +26,12 @@ class NoteItem extends Vue {
     @Prop() public isSelected: boolean;
 
     public useTagsStrip: any = null;
+
+    public get noteContent(): string {
+        const cleanContent =  this.useTagsStrip.stripHtmlTags(this.note.content);
+        const startIndex = this.note.title.trim().length;
+        return cleanContent.slice(startIndex, 80);
+    }
 
     public created() {
         this.useTagsStrip = useTagsStrip();
