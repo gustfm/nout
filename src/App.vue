@@ -5,16 +5,17 @@
             :selectedFolder="foldersService.selectedFolder"
             @selectFolder="selectFolder"
             @createFolder="createFolder"
+            @changeFolderEmote="changeFolderEmote"
         />
         <NotesList
             :notes="notesService.notes"
-            :selectedNote="notesService.selectedNote"
+            :selectedNote="selectedNote"
             :isLoadingNotes="isLoadingNotes"
             @selectNote="selectNote"
             @createNote="createNote"
         />
         <NoteContainer
-            :selectedNote="notesService.selectedNote"
+            :selectedNote="selectedNote"
             :isSavingSelectedNote="isSavingSelectedNote"
             @deleteNote="deleteNote"
             @saveCurrentNoteContent="saveCurrentNoteContent"
@@ -31,6 +32,7 @@ import FoldersRepository from "./repositories/FoldersRepository";
 import NotesRepository from "./repositories/NotesRepository";
 import NotesService from "./app/Notes/Services/NotesService";
 import FoldersService from "./app/Folders/Services/FoldersService";
+import Note from "./app/Notes/Models/Note";
 
 @Component({
     components: { FoldersList, NotesList, NoteContainer },
@@ -51,6 +53,10 @@ class App extends Vue {
 
     public get isLoadingNotes(): boolean {
         return this.notesService.isLoadingNotes;
+    }
+
+    public get selectedNote(): Note {
+        return this.notesService?.selectedNote;
     }
 
     public async mounted() {
@@ -87,6 +93,10 @@ class App extends Vue {
 
     public selectNote(id: number) {
         this.notesService.selectNote(id);
+    }
+
+    public changeFolderEmote(folderId: number, folderIcon: string) {
+        this.foldersService.changeFolderEmote(folderId, folderIcon);
     }
 
     public async createNote() {

@@ -20,7 +20,6 @@ export default class FoldersService {
     }
 
     public async createFolder(folderName: string): Promise<void> {
-        console.log(this.foldersRepository);
         const createdFolder = await this.foldersRepository.createFolder(folderName);
         this.folders = [createdFolder, ...this.folders];
         await this.loadFolders();
@@ -29,5 +28,11 @@ export default class FoldersService {
     public selectFolder(folderId: number) {
         const folder = this.getFolder(folderId);
         this.selectedFolder = folder;
+    }
+
+    public async changeFolderEmote(folderId: number, folderIcon: string) {
+        await this.foldersRepository.updateFolderIcon(folderId, folderIcon);
+        const selectedFolder = this.folders.find(folder => folder.id === folderId);
+        selectedFolder.icon = folderIcon;
     }
 }

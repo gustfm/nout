@@ -5,7 +5,7 @@
             class="folder-emote rounded-md mr-1.5"
             @click.prevent.stop="() => [toggleDropdown(), updateDropdownPosition()]"
         >
-            
+            {{ value }}
         </button>
 
         <Teleport to="body">
@@ -27,12 +27,16 @@
                         <Button
                             type="ghost"
                             class="emote-button"
-                            v-for="(emote, index) in emotes.slice(0, 56)"
+                            v-for="(emote, index) in emotes"
                             :key="index"
-                            @click.prevent.stop="console.log(emote)"
+                            @click.prevent.stop="changeEmote(emote.skins[0].native)"
                         >
-                            {{ emote }}
+                            {{ emote.skins[0].native }}
                         </Button>
+                    </div>
+
+                    <div>
+                        <button v-for="i in Array.from({ length: maxPages }, (_, i) => i).map(i => i+1)" @click="currentPage = i">{{ i }}</button>
                     </div>
                 </div>
             </transition>
@@ -41,19 +45,25 @@
 </template>
 
 <script lang="ts">
+import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
 import { ComposableDropdown, useDropdown } from "../Composables/useDropdown";
-import { Component, toNative, Vue } from "vue-facing-decorator";
 import Button from "./Button.vue";
+import rawEmotes from '../Constants/raw_emotes.json';
+import RawEmotes from "../Models/RawEmotes";
 
 @Component({
     components: {
         Button,
     },
+    emits: ['changeEmote']
 })
 class EmotePickerDropdown extends Vue {
+    @Prop() public value: string;
+
     public dropdownComposable: ComposableDropdown = null;
 
-    public emotes: any[] = [];
+    public pageSize = 63;
+    public currentPage = 3;
 
     public get isOpen() {
         return this.dropdownComposable?.isOpen;
@@ -63,12 +73,20 @@ class EmotePickerDropdown extends Vue {
         return this.dropdownComposable?.dropdownPosition;
     }
 
+    public get maxPages() {
+        return Math.floor((rawEmotes as RawEmotes[]).length / this.pageSize);
+    }
+
+    public get emotes() {
+        if (this.currentPage === 1) {
+            return rawEmotes.slice(0, this.pageSize);
+        }
+        const end = this.pageSize * this.currentPage;
+        const start = end - this.pageSize;
+        return rawEmotes.slice(start, end);
+    }
+
     public async mounted() {
-        const response = await fetch("https://cdn.jsdelivr.net/npm/@emoji-mart/data");
-        const data = await response.json();
-
-        this.emotes = Object.entries(data.emojis).map(([emojiName, emoji]) => emoji.skins[0].native);
-
         this.dropdownComposable = useDropdown(this.$refs.dropdownButton as HTMLElement, this.$refs.dropdownMenu as HTMLElement);
         this.dropdownComposable.createListeners();
     }
@@ -84,14 +102,27 @@ class EmotePickerDropdown extends Vue {
     public updateDropdownPosition() {
         this.dropdownComposable.updateDropdownPosition();
     }
+
+    public changeEmote(emote: string) {
+        this.$emit('changeEmote', emote);
+        this.toggleDropdown();
+    }
 }
 
 export default toNative(EmotePickerDropdown);
 </script>
 
 <style scoped lang="scss">
+.folder-emote {
+    padding: 1px 3px;
+    font-size: 15px;
+
+    &:hover {
+        background-color: var(--gray-300);
+    }
+}
 .emote-picker-container {
-    width: 300px;
+    width: 290px;
     max-height: 400px;
     overflow: auto;
 

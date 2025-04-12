@@ -1,8 +1,5 @@
 import path from "path";
 
-const getDbPath = (): string => {
-    const directoryRoot = path.resolve("./");
-    return `${directoryRoot}/src/resources/database.db`;
-}
+const dbPath = path.join(__dirname, "database.db").replace('/app.asar', '');
 
-export { getDbPath };
+export { dbPath };

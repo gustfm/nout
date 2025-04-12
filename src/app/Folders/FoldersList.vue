@@ -9,6 +9,7 @@
                 :folder="folder"
                 :isSelected="selectedFolder?.id === folder?.id"
                 @selectFolder="selectFolder"
+                @changeFolderEmote="changeFolderEmote"
             />
         </div>
 
@@ -25,7 +26,7 @@ import Empty from "../Common/Components/Empty.vue";
 
 @Component({
     components: { FolderItem, NewFolderModal, Empty },
-    emits: ["selectFolder", "createFolder"],
+    emits: ["selectFolder", "createFolder", "changeFolderEmote"],
 })
 class FoldersList extends Vue {
     @Prop() public folders: Array<Folder>;
@@ -41,6 +42,10 @@ class FoldersList extends Vue {
 
     public createFolder(folderName: string) {
         this.$emit("createFolder", folderName);
+    }
+
+    public changeFolderEmote(folderId: number, folderIcon: string) {
+        this.$emit('changeFolderEmote', folderId, folderIcon);
     }
 }
 

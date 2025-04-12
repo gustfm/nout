@@ -1,4 +1,4 @@
-import { contextBridge } from "electron";
+import { app, contextBridge } from "electron";
 import DatabaseHandler from "./repositories/DatabaseHandler";
 import NotesRepository from "./repositories/NotesRepository";
 import Note from "./app/Notes/Models/Note";
@@ -11,15 +11,18 @@ declare global {
     }
 }
 
+const customArg = process.argv.find(arg => arg.startsWith('--user-data-dir='));
+const myValue = customArg ? customArg.split('=')[1] : null;
+
 try {
-    const databaseHandler = new DatabaseHandler();
+    const databaseHandler = new DatabaseHandler(myValue);
     databaseHandler.initDatabase();
 } catch (err) {
     console.log(`Error when loading the database: ${err}`);
 }
 
-const foldersRepository = new FoldersRepository();
-const notesRepository = new NotesRepository();
+const foldersRepository = new FoldersRepository(myValue);
+const notesRepository = new NotesRepository(myValue);
 
 const notesRepositoryMethods: Omit<typeof notesRepository, "getDb"> = {
     getAll: () => notesRepository.getAll(),
@@ -34,6 +37,7 @@ const foldersRepositoryMethods: Omit<typeof foldersRepository, "getDb"> = {
     getAll: () => foldersRepository.getAll(),
     createFolder: (folderName: string) => foldersRepository.createFolder(folderName),
     findOne: (id: number) => foldersRepository.findOne(id),
+    updateFolderIcon: (id: number, icon: string) => foldersRepository.updateFolderIcon(id, icon)
 };
 
 contextBridge.exposeInMainWorld("notesRepository", notesRepositoryMethods);

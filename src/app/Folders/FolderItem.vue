@@ -1,10 +1,10 @@
 <template>
     <li
-        class="flex items-center text-sm rounded-md pr-3 pl-2 py-1.5"
-        :class="{ isSelected }"
+        class="flex items-center text-sm rounded-md pr-3 pl-1 py-1 mb-1"
+        :class="{ 'is-selected': isSelected }"
         @click.prevent.stop="selectFolder(folder.id)"
     >
-        <EmotePickerDropdown />
+        <EmotePickerDropdown :value="folder.icon" @changeEmote="changeFolderEmote" />
         <div class="flex justify-between w-full">
             <span>{{ folder.name }}</span>
             <span class="text-gray-500">{{ folder.notesCount }}</span>
@@ -20,15 +20,18 @@ import EmotePickerDropdown from "../Common/Components/EmotePickerDropdown.vue";
 
 @Component({
     components: { FolderIcon, EmotePickerDropdown },
-    emits: ["selectFolder"],
+    emits: ["selectFolder", "changeFolderEmote"],
 })
 class FolderItem extends Vue {
     @Prop() public readonly folder: Folder;
     @Prop() public readonly isSelected: Boolean;
 
     public selectFolder(id: number): void {
-        console.log("????");
         this.$emit("selectFolder", id);
+    }
+
+    public changeFolderEmote(folderIcon: string) {
+        this.$emit('changeFolderEmote', this.folder.id, folderIcon);
     }
 }
 
@@ -41,7 +44,7 @@ li {
     color: #161616;
 
     &:hover,
-    .isSelected {
+    &.is-selected {
         background-color: var(--gray-200);
     }
 

@@ -1,11 +1,13 @@
 import { Database, open } from "sqlite";
 import sqlite3 from "sqlite3";
-import { getDbPath } from "./DbPath";
+import { dbPath } from "./DbPath";
 import Note, { NoteDto } from "../app/Notes/Models/Note";
 
 export default class NotesRepository {
+    constructor(private dbPath: string) {}
+
     protected async getDb(): Promise<Database> {
-        return await open({ filename: getDbPath(), driver: sqlite3.Database });
+        return await open({ filename: `${this.dbPath}/nout_database.db`, driver: sqlite3.Database });
     }
 
     public async getAll(): Promise<Note[]> {
