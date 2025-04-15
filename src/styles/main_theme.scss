@@ -17,6 +17,7 @@
 
 .primary-button {
     background: var(--primary-color);
+    color: var(--primary-text-color);
 
     &:hover {
         background: var(--primary-color-hover);
@@ -29,7 +30,8 @@
 }
 .secondary-button {
     background-color: var(--secondary-color);
-
+    color: var(--secondary-text-color);
+    
     &:hover {
         background-color: var(--secondary-color-hover);
     }
@@ -42,6 +44,7 @@
 
 .ghost-button {
     background-color: transparent;
+    color: var(--secondary-text-color);
 
     &:hover {
         background-color: var(--secondary-color);

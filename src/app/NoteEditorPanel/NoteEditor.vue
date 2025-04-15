@@ -4,15 +4,13 @@
 
 <script lang="ts">
 import Highlight from "@tiptap/extension-highlight";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
 import Typography from "@tiptap/extension-typography";
 import StarterKit from "@tiptap/starter-kit";
 import { Editor, EditorContent } from "@tiptap/vue-3";
-import { Prop, toNative, Vue, Watch, Component } from "vue-facing-decorator";
+import { Component, Prop, toNative, Vue, Watch } from "vue-facing-decorator";
 import Note from "../Notes/Models/Note";
-import TaskList from "@tiptap/extension-task-list";
-import TaskItem from "@tiptap/extension-task-item";
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
 
 @Component({
     components: { EditorContent },
@@ -84,6 +82,8 @@ export default toNative(NoteEditor);
     width: 100%;
     height: 100%;
     overflow: auto;
+    background-color: var(--background-color);
+    color: var(--regular-text-color);
 }
 .editor-content .tiptap {
     height: 100%;
@@ -130,9 +130,10 @@ export default toNative(NoteEditor);
 
     /* Code and preformatted text styles */
     code {
-        background-color: var(--purple-light);
+        background: var(--sub-background-color);
+        border: 1px solid var(--secondary-border-color);
         border-radius: 0.4rem;
-        color: var(--black);
+        color: var(--regular-text-color);
         font-size: 0.85rem;
         padding: 0.25em 0.3em;
         font-family: "Fira Code", monospace;
@@ -140,9 +141,9 @@ export default toNative(NoteEditor);
     }
 
     pre {
-        background: var(--black);
+        background: var(--sub-background-color);
         border-radius: 0.5rem;
-        color: var(--white);
+        color: var(--regular-text-color);
         font-family: "Fira Code", monospace;
         margin: 1.5rem 0;
         padding: 0.75rem 1rem;

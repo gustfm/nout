@@ -31,7 +31,7 @@ class FolderItem extends Vue {
     }
 
     public changeFolderEmote(folderIcon: string) {
-        this.$emit('changeFolderEmote', this.folder.id, folderIcon);
+        this.$emit("changeFolderEmote", this.folder.id, folderIcon);
     }
 }
 
@@ -41,11 +41,14 @@ export default toNative(FolderItem);
 <style scoped lang="scss">
 li {
     cursor: pointer;
-    color: #161616;
+    color: var(--primary-text-color);
 
-    &:hover,
+    &:hover {
+        background-color: var(--primary-color-hover);
+    }
     &.is-selected {
-        background-color: var(--gray-200);
+        background-color: var(--primary-color);
+        color: var(--primary-text-color);
     }
 
     .icon {

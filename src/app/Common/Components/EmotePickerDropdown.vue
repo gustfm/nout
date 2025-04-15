@@ -1,5 +1,5 @@
 <template>
-    <div class="relative">
+    <div class="emote-picker-dropdown relative">
         <button
             ref="dropdownButton"
             class="folder-emote rounded-md mr-1.5"
@@ -118,9 +118,13 @@ export default toNative(EmotePickerDropdown);
     font-size: 15px;
 
     &:hover {
-        background-color: var(--gray-300);
+        background-color: var(--secondary-color-hover);
     }
 }
+.dropdown-menu {
+    background-color: var(--background-color);
+    border-color: var(--regular-border-color);
+} 
 .emote-picker-container {
     width: 290px;
     max-height: 400px;

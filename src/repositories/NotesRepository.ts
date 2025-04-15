@@ -1,6 +1,5 @@
 import { Database, open } from "sqlite";
 import sqlite3 from "sqlite3";
-import { dbPath } from "./DbPath";
 import Note, { NoteDto } from "../app/Notes/Models/Note";
 
 export default class NotesRepository {

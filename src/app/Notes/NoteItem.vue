@@ -28,7 +28,7 @@ class NoteItem extends Vue {
     public useTagsStrip: any = null;
 
     public get noteContent(): string {
-        const cleanContent =  this.useTagsStrip.stripHtmlTags(this.note.content);
+        const cleanContent = this.useTagsStrip.stripHtmlTags(this.note.content);
         const startIndex = this.note.title.trim().length;
         return cleanContent.slice(startIndex, 80);
     }
@@ -54,9 +54,13 @@ export default toNative(NoteItem);
     padding: 12px 14px;
     border-radius: 6px;
     position: relative;
+    color: var(--primary-text-color);
 }
-.note-item.is-selected,
 .note-item:hover {
-    background-color: #f1eaab;
+    background-color: var(--primary-color-hover);
+}
+.note-item.is-selected {
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
 }
 </style>

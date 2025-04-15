@@ -101,11 +101,12 @@ class App extends Vue {
 
     public async createNote() {
         await this.notesService.createNote(this.foldersService.selectedFolder.id);
+        await this.foldersService.loadFolders();
     }
 
     public async deleteNote(noteId: number): Promise<void> {
         const { selectedFolder } = this.foldersService;
-        this.notesService.deleteNote(noteId);
+        await this.notesService.deleteNote(noteId);
         await this.notesService.loadRelatedNotes(selectedFolder.id);
     }
 }

@@ -41,7 +41,7 @@ export default toNative(NoteContainerHeader);
 
 .note-container-header {
     padding: 8px;
-    border-bottom: 1px solid var(--default-border-color);
+    border-bottom: 1px solid var(--regular-border-color);
 
     .save-button {
         @apply px-3 !important;

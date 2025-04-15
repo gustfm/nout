@@ -60,11 +60,12 @@ export default toNative(FoldersList);
     min-width: 250px;
     height: 100vh;
     padding: 8px;
-    border-right: 1px solid var(--default-border-color);
+    border-right: 1px solid var(--regular-border-color);
+    background-color: var(--background-color);
 }
 .folders-list-container h6 {
     padding: 0;
-    color: var(--gray-700) !important;
+    color: var(--section-title-color) !important;
 }
 .folders-list {
     height: calc(100% - 65px);

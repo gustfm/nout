@@ -1,7 +1,7 @@
 {
     "name": "nout",
     "productName": "nout",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "My favorite editor for notes!",
     "main": ".vite/build/main.js",
     "scripts": {

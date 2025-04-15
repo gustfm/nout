@@ -25,6 +25,7 @@ export default toNative(NotesList);
     .message {
         font-size: 14px;
         font-family: "Inter", sans-serif;
+        color: var(--regular-text-color);
     }
 }
 </style>

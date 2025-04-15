@@ -13,10 +13,32 @@
     // --primary-color-hover: #e2db98;
     // --primary-color: #275efe;
     // --primary-color-hover: #275efe;
-    --primary-color: #e4d233;
-    --primary-color-hover: #ece38b;
-    --secondary-color: #e2e8f0;
-    --secondary-color-hover: #cbd5e1;
+    // --primary-color: #e4d233;
+    // --primary-color-hover: #ece38b;
+    // --primary-text-color: #fafafa;
 
-    --default-border-color: #ddd7d6;
+    // Dark
+    --primary-color: #1f2225;
+    --primary-color-hover: #2a2e31;
+    --primary-text-color: #afafaf;
+
+    --secondary-color: #3a3a3a;
+    --secondary-color-hover: #464646;
+    --secondary-text-color: #afafaf;
+
+    --background-color: #141414;
+    --sub-background-color: #0e0e0e;
+    --section-title-color: #dadada;
+    --regular-text-color: #c9c9c9;
+
+    --skeleton-linear-gradient: linear-gradient(90deg, #222222 25%, #292929 37%, #222222 63%);
+    --regular-border-color: #2b2b2b;
+    --secondary-border-color: #3a3a3a;
+
+    // Light
+    // --section-title-color: var(--gray-700);
+    
+    // --regular-border-color: #ddd7d6;
+
+    // --skeleton-linear-gradient: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 37%, #f2f2f2 63%);
 }

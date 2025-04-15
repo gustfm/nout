@@ -1,6 +1,6 @@
 <template>
-    <div class="relative inline-block text-left w-full" ref="dropdownRef">
-        <Button class="mt-2 px-3" type="ghost" size="small" :full="true" @click="toggleDropdown()">
+    <div class="new-folder-modal relative inline-block text-left w-full">
+        <Button ref="dropdownButton" class="mt-2 px-3" type="ghost" size="small" :full="true" @click="toggleDropdown()">
             <template #icon>
                 <PlusCircleIcon />
             </template>
@@ -15,7 +15,11 @@
             leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95"
         >
-            <div v-if="isOpen" class="dropdown-menu absolute top-[-105px] mt-2 w-54 bg-white border border-gray-200 rounded-lg shadow-md">
+            <div
+                v-show="isOpen"
+                ref="dropdownMenu"
+                class="dropdown-menu absolute top-[-105px] mt-2 w-54 bg-white border rounded-lg shadow-md"
+            >
                 <div class="py-2 px-2">
                     <h5 class="text-sm mb-2">Nova pasta</h5>
                     <input
@@ -27,7 +31,7 @@
                         class="w-full px-2 py-1 text-sm bg-gray-100 border border-gray-300 rounded-md shadow-sm outline-none transition-all focus:ring-.5 focus:ring-gray-900 focus:border-gray-400"
                         @keyup="createFolder"
                     />
-                    <small class="text-gray-500 text-xs">Pressione enter para criar a pasta</small>
+                    <small class="text-xs">Pressione enter para criar a pasta</small>
                 </div>
             </div>
         </transition>
@@ -36,7 +40,7 @@
 
 <script lang="ts">
 import { PlusCircleIcon } from "@heroicons/vue/24/outline";
-import { Component, toNative, Vue } from "vue-facing-decorator";
+import { Component, Ref, toNative, Vue } from "vue-facing-decorator";
 import { useDropdown } from "../../Common/Composables/useDropdown";
 import Button from "../../../app/Common/Components/Button.vue";
 
@@ -52,7 +56,17 @@ class NewFolderModal extends Vue {
     }
 
     public mounted() {
-        this.dropdownComposable = useDropdown();
+        console.log(this.$refs.dropdownButton.buttonRef);
+        console.log(this.$refs.dropdownMenu);
+        this.dropdownComposable = useDropdown(
+            this.$refs.dropdownButton.buttonRef as HTMLElement,
+            this.$refs.dropdownMenu as HTMLElement
+        );
+        this.dropdownComposable.createListeners();
+    }
+
+    public unmounted() {
+        this.dropdownComposable.destroyListeners();
     }
 
     public toggleDropdown() {
@@ -72,3 +86,24 @@ class NewFolderModal extends Vue {
 
 export default toNative(NewFolderModal);
 </script>
+
+<style scoped lang="scss">
+.new-folder-modal {
+    .dropdown-menu {
+        background-color: var(--background-color);
+        border-color: var(--regular-border-color);
+
+        h5 {
+            color: var(--regular-text-color);
+        }
+        input {
+            background-color: var(--sub-background-color);
+            color: var(--regular-text-color);
+            border-color: var(--regular-border-color);
+        }
+        small {
+            color: var(--secondary-text-color);
+        }
+    }
+}
+</style>

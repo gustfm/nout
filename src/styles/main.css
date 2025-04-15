@@ -30,6 +30,9 @@ html {
     z-index: 3;
 }
 
+.small-scroll {
+    scrollbar-color: transparent transparent;
+}
 .small-scroll:not(:hover)::-webkit-scrollbar-thumb {
     background: transparent;
 }

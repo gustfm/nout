@@ -30,6 +30,6 @@ export default toNative(HeaderNotesList);
 
 .header-notes-list {
     padding: 8px;
-    border-bottom: 1px solid var(--default-border-color);
+    border-bottom: 1px solid var(--regular-border-color);
 }
 </style>

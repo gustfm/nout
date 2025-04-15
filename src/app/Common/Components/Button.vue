@@ -1,12 +1,12 @@
 <template>
-    <button class="button" :disabled="disabled" :class="[buttonStyle, fullWidth, buttonSize]" @click="handleClick">
-        <span v-if="hasIconContent" class="button-icon mr-2"><slot name="icon" /></span>
-        <span v-if="hasTextContent" class="leading-none button-text"><slot /></span>
+    <button class="button" ref="buttonRef" :disabled="disabled" :class="[buttonStyle, fullWidth, buttonSize]" @click="handleClick">
+        <span v-if="hasIconContent" class="button-icon mx-1"><slot name="icon" /></span>
+        <span v-if="hasTextContent" class="leading-none button-text" :class="{ 'ml-2': hasIconContent }"><slot /></span>
     </button>
 </template>
 
 <script lang="ts">
-import { Component, Prop, toNative, Vue } from "vue-facing-decorator";
+import { Component, Prop, Ref, toNative, Vue } from "vue-facing-decorator";
 
 enum ButtonType {
     primary = "primary",
@@ -21,10 +21,13 @@ enum Size {
     emits: ["click"],
 })
 class Button extends Vue {
+    @Prop() public xref: string;
     @Prop() public disabled: boolean;
     @Prop() public full: boolean;
     @Prop({ default: Size.normal }) public size: Size;
     @Prop() public type: ButtonType;
+
+    @Ref() public buttonRef: HTMLButtonElement;
 
     public get buttonStyle(): string {
         const map = {
@@ -76,7 +79,7 @@ export default toNative(Button);
         }
     }
     &.normal {
-        @apply p-1.5;
+        @apply p-1;
 
         svg {
             width: 20px;
@@ -108,6 +111,10 @@ export default toNative(Button);
         .button-icon {
             padding-top: 3px;
             padding-bottom: 3px;
+        }
+
+        .button-text {
+            margin: 2px 0;
         }
     }
 }

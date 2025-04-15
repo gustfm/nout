@@ -53,5 +53,6 @@ export default toNative(NoteContainer);
     width: 100%;
     max-width: 100%;
     height: 100%;
+    background-color: var(--background-color);
 }
 </style>

@@ -29,7 +29,7 @@ export default toNative(Skeleton);
         padding: 12px 14px;
         border-radius: 6px;
         position: relative;
-        background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 37%, #f2f2f2 63%);
+        background: var(--skeleton-linear-gradient);
         background-size: 400% 100%;
         height: 45px;
         width: 100%;

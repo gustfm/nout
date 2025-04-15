@@ -48,13 +48,22 @@ class NotesList extends Vue {
 export default toNative(NotesList);
 </script>
 
+<style>
+.notes-list ul {
+    list-style-type: none;
+}
+</style>
+
 <style scoped>
 .notes-list {
     width: 300px;
     min-width: 300px;
-    border-right: 1px solid #ddd7d6;
+    border-right: 1px solid var(--regular-border-color);
+    background-color: var(--background-color);
+    list-style-type: none;
 }
 .notes-list ul {
     padding: 8px 0 8px 8px;
+    list-style-type: none;
 }
 </style>
