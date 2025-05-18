@@ -1,6 +1,6 @@
 <template>
     <li class="note-item cursor-pointer mb-2" :class="{ 'is-selected': isSelected }" @click="selectNote(note.id)">
-        <NoteTitle :title="useTagsStrip.stripHtmlTags(note.title)" />
+        <NoteTitle :title="useTagsStrip.stripHtmlTags(note.title)" :hasUnsavedChanges="hasUnsavedChanges" />
         <NoteDescription :content="noteContent" />
         <p class="text-xs text-nowrap text-ellipsis overflow-hidden text-slate-600">{{ formatDate(note.createdAt) }}</p>
     </li>
@@ -24,8 +24,17 @@ dayjs.extend(LocalizedFormat);
 class NoteItem extends Vue {
     @Prop() public note: Note;
     @Prop() public isSelected: boolean;
+    @Prop() public hasSeletedNoteContentUnsavedChanges: boolean;
 
     public useTagsStrip: any = null;
+
+    public get hasUnsavedChanges(): boolean {
+        return (
+            this.hasSeletedNoteContentUnsavedChanges !== null &&
+            this.hasSeletedNoteContentUnsavedChanges &&
+            this.isSelected
+        );
+    }
 
     public get noteContent(): string {
         const cleanContent = this.useTagsStrip.stripHtmlTags(this.note.content);

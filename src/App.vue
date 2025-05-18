@@ -11,6 +11,7 @@
             :notes="notesService.notes"
             :selectedNote="selectedNote"
             :isLoadingNotes="isLoadingNotes"
+            :hasSeletedNoteContentUnsavedChanges="notesService.hasSeletedNoteContentUnsavedChanges"
             @selectNote="selectNote"
             @createNote="createNote"
         />

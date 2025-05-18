@@ -1,13 +1,10 @@
 import { Database, open } from "sqlite";
 import sqlite3 from "sqlite3";
-import { dbPath } from "./DbPath";
-const { app } = require("electron");
 
 export default class DatabaseHandler {
     constructor(private dbPath: string) {}
 
     private async getDb(): Promise<Database> {
-        console.log(`${this.dbPath}/database.db`);
         return await open({ filename: `${this.dbPath}/nout_database.db`, driver: sqlite3.Database });
     }
 

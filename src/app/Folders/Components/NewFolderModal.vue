@@ -56,8 +56,6 @@ class NewFolderModal extends Vue {
     }
 
     public mounted() {
-        console.log(this.$refs.dropdownButton.buttonRef);
-        console.log(this.$refs.dropdownMenu);
         this.dropdownComposable = useDropdown(
             this.$refs.dropdownButton.buttonRef as HTMLElement,
             this.$refs.dropdownMenu as HTMLElement

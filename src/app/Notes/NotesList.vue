@@ -9,6 +9,7 @@
                 :key="note?.id"
                 :isSelected="selectedNote?.id === note?.id"
                 :note="note"
+                :hasSeletedNoteContentUnsavedChanges="hasSeletedNoteContentUnsavedChanges"
                 @selectNote="selectNote"
             />
         </ul>
@@ -31,6 +32,7 @@ class NotesList extends Vue {
     @Prop() public notes: Array<Note>;
     @Prop() public selectedNote: Note;
     @Prop() public isLoadingNotes: boolean;
+    @Prop() public hasSeletedNoteContentUnsavedChanges: boolean;
 
     public get isNotesEmpty(): boolean {
         return !this.notes?.length;

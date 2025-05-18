@@ -1,5 +1,6 @@
 import { ipcMain } from "electron";
 import path from "path";
+
 const { app, BrowserWindow } = require("electron");
 
 if (require("electron-squirrel-startup")) {
@@ -11,6 +12,7 @@ const createWindow = () => {
         width: 800,
         height: 600,
         autoHideMenuBar: true,
+        icon: path.join(__dirname, 'assets', 'icon.png'),
         webPreferences: {
             contextIsolation: true,
             nodeIntegration: true,
@@ -24,8 +26,6 @@ const createWindow = () => {
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
         process.env.VUE_APP_USER_DATA = app.getPath("appData");
-
-        console.log('process.env.VUE_APP_USER_DATA', process.env.VUE_APP_USER_DATA);
 
         mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
     } else {

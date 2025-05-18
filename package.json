@@ -77,6 +77,9 @@
         },
         "extraResources": [
             "database.db"
-        ]
+        ],
+        "linux": {
+            "icon": "./assets/icon.png"
+        }
     }
 }
