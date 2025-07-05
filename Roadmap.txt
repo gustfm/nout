@@ -1,5 +1,4 @@
-Dia 11 de novembro
--> Terminar a funcionalidade de criar nova nota adicionando no banco de dados
+2.0.0
+-> To do notes
+-> Drawing notes
 
-Dia 12/13 de novembro
--> Criar funcionalidade de criação de pastas

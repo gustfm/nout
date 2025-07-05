@@ -21,7 +21,15 @@ const config: ForgeConfig = {
         force: true,
     },
     // new MakerRpm({})
-    makers: [new MakerSquirrel({}), new MakerZIP({}, ["darwin"]), new MakerDeb({})],
+    makers: [
+        new MakerSquirrel({}),
+        new MakerZIP({}, ["darwin"]),
+        new MakerDeb({
+            options: {
+                icon: path.join(__dirname, "assets", "icon.png"),
+            },
+        }),
+    ],
     plugins: [
         new VitePlugin({
             // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
