@@ -1,5 +1,11 @@
 <template>
-    <button class="button" ref="buttonRef" :disabled="disabled" :class="[buttonStyle, fullWidth, buttonSize]" @click="handleClick">
+    <button
+        class="button"
+        ref="buttonRef"
+        :disabled="disabled"
+        :class="[buttonStyle, fullWidth, buttonSize, toCenter]"
+        @click="handleClick"
+    >
         <span v-if="hasIconContent" class="button-icon mx-1"><slot name="icon" /></span>
         <span v-if="hasTextContent" class="leading-none button-text" :class="{ 'ml-2': hasIconContent }"><slot /></span>
     </button>
@@ -15,6 +21,7 @@ enum ButtonType {
 enum Size {
     small = "small",
     normal = "normal",
+    large = "large",
 }
 
 @Component({
@@ -24,6 +31,7 @@ class Button extends Vue {
     @Prop() public xref: string;
     @Prop() public disabled: boolean;
     @Prop() public full: boolean;
+    @Prop() public center: boolean;
     @Prop({ default: Size.normal }) public size: Size;
     @Prop() public type: ButtonType;
 
@@ -33,6 +41,7 @@ class Button extends Vue {
         const map = {
             primary: "primary-button",
             secondary: "secondary-button",
+            danger: "danger-button",
             ghost: "ghost-button",
         };
 
@@ -47,9 +56,16 @@ class Button extends Vue {
         const map = {
             [Size.small]: "small",
             [Size.normal]: "normal",
+            [Size.large]: "large",
         };
 
         return map[this.size];
+    }
+
+    public get toCenter(): string {
+        if (this.center) {
+            return "flex justify-center items-center";
+        }
     }
 
     public get hasTextContent(): boolean {
@@ -86,6 +102,15 @@ export default toNative(Button);
             height: 20px;
         }
     }
+
+    &.large {
+        @apply p-3;
+
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
 }
 </style>
 
@@ -115,6 +140,15 @@ export default toNative(Button);
 
         .button-text {
             margin: 2px 0;
+        }
+    }
+    &.large {
+        font-size: 16px !important;
+
+        .button-text,
+        .button-icon {
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
     }
 }

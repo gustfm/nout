@@ -11,6 +11,9 @@
         "outDir": "dist",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        "types": ["vite/client"]
     }
 }
