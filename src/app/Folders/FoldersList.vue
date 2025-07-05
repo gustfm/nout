@@ -65,7 +65,7 @@ export default toNative(FoldersList);
 }
 .folders-list-container h6 {
     padding: 0;
-    color: var(--section-title-color) !important;
+    color: var(--heading-text-color) !important;
 }
 .folders-list {
     height: calc(100% - 65px);

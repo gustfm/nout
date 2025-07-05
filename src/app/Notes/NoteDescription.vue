@@ -1,6 +1,6 @@
 <template>
-    <p v-if="content" class="text-xs text-nowrap text-ellipsis overflow-hidden text-slate-600">{{ content }}</p>
-    <p v-else class="text-xs italic text-nowrap text-ellipsis overflow-hidden text-slate-800">Empty note content</p>
+    <p v-if="content" class="subtle-text text-xs text-nowrap text-ellipsis overflow-hidden text-slate-600">{{ content }}</p>
+    <p v-else class="subtle-text text-xs italic text-nowrap text-ellipsis overflow-hidden">Empty note content</p>
 </template>
 
 <script lang="ts" setup>

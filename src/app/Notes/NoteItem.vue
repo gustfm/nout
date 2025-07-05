@@ -2,7 +2,7 @@
     <li class="note-item cursor-pointer mb-2" :class="{ 'is-selected': isSelected }" @click="selectNote(note.id)">
         <NoteTitle :title="useTagsStrip.stripHtmlTags(note.title)" :hasUnsavedChanges="hasUnsavedChanges" />
         <NoteDescription :content="noteContent" />
-        <p class="text-xs text-nowrap text-ellipsis overflow-hidden text-slate-600">{{ formatDate(note.createdAt) }}</p>
+        <p class="subtle-text text-xs text-nowrap text-ellipsis overflow-hidden text-slate-600">{{ formatDate(note.createdAt) }}</p>
     </li>
 </template>
 
