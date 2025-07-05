@@ -25,10 +25,15 @@
     --secondary-color: #3a3a3a;
     --secondary-color-hover: #464646;
     --secondary-text-color: #afafaf;
+    
+    --danger-color: #ef4444;
+    --danger-color-hover: #dc2626;
+    --danger-text-color: #fafafa;
 
     --background-color: #141414;
     --sub-background-color: #0e0e0e;
-    --section-title-color: #dadada;
+    --heading-text-color: #e5e7eb;
+    --subtle-text-color: #b7bdc7;
     --regular-text-color: #c9c9c9;
 
     --skeleton-linear-gradient: linear-gradient(90deg, #222222 25%, #292929 37%, #222222 63%);
@@ -36,7 +41,7 @@
     --secondary-border-color: #3a3a3a;
 
     // Light
-    // --section-title-color: var(--gray-700);
+    // --heading-text-color: var(--gray-700);
     
     // --regular-border-color: #ddd7d6;
 

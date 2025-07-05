@@ -2,10 +2,17 @@
 
 .primary-button,
 .secondary-button,
+.danger-button,
 .ghost-button {
     @apply border-0;
     @apply text-sm;
     @apply font-medium;
+    @apply transition-colors;
+    @apply duration-200;
+    @apply focus:outline-none;
+    @apply focus:ring-2;
+    @apply focus:ring-red-500;
+    @apply focus:ring-opacity-50;
     border-radius: 8px;
     color: var(--gray-800);
 
@@ -22,11 +29,11 @@
     &:hover {
         background: var(--primary-color-hover);
     }
-    &:disabled {
-        &:hover {
-            background-color: var(--primary-color);
-        }
-    }
+    // &:disabled {
+    //     &:hover {
+    //         background-color: var(--primary-color);
+    //     }
+    // }
 }
 .secondary-button {
     background-color: var(--secondary-color);
@@ -35,11 +42,24 @@
     &:hover {
         background-color: var(--secondary-color-hover);
     }
-    &:disabled {
-        &:hover {
-            background-color: var(--primary-color);
-        }
+    // &:disabled {
+    //     &:hover {
+    //         background-color: var(--primary-color);
+    //     }
+    // }
+}
+.danger-button {
+    background-color: var(--danger-color);
+    color: var(--danger-text-color);
+    
+    &:hover {
+        background-color: var(--danger-color-hover);
     }
+    // &:disabled {
+    //     &:hover {
+    //         background-color: var(--primary-color);
+    //     }
+    // }
 }
 
 .ghost-button {
@@ -54,4 +74,14 @@
             background-color: transparent;
         }
     }
+}
+
+.heading-text {
+    color: var(--heading-text-color);
+}
+.subtle-text {
+    color: var(--subtle-text-color);
+}
+.regular-text {
+    color: var(--regular-text-color);
 }
