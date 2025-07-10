@@ -21,6 +21,8 @@
             @deleteNote="deleteNote"
             @saveCurrentNoteContent="saveCurrentNoteContent"
         />
+
+        <UnsavedModal v-model="unsavedModal.isOpen" />
     </div>
 </template>
 
@@ -34,15 +36,19 @@ import NotesRepository from "./repositories/NotesRepository";
 import NotesService from "./app/Notes/Services/NotesService";
 import FoldersService from "./app/Folders/Services/FoldersService";
 import Note from "./app/Notes/Models/Note";
+import { ComposableModal, useModal } from "./app/Common/Composables/useModal";
+import UnsavedModal from "./app/Common/Components/UnsavedModal.vue";
+import { UnsavedChangesModal } from "./app/Common/Services/UnsavedChangesModal";
 
 @Component({
-    components: { FoldersList, NotesList, NoteContainer },
+    components: { FoldersList, NotesList, NoteContainer, UnsavedModal },
 })
 class App extends Vue {
     public foldersRepository: FoldersRepository = null;
     public notesRepository: NotesRepository = null;
     public notesService: NotesService = null;
     public foldersService: FoldersService = null;
+    public unsavedModal: ComposableModal = null;
 
     public get isFoldersLoaded(): boolean {
         return this.foldersService?.isFoldersLoaded;
@@ -61,6 +67,7 @@ class App extends Vue {
     }
 
     public async mounted() {
+        this.unsavedModal = useModal();
         this.mountRepositories();
         this.initializeServices();
 
@@ -79,6 +86,14 @@ class App extends Vue {
     }
 
     public async selectFolder(folderId: number): Promise<void> {
+        if (this.notesService.selectedNote && this.notesService.hasSeletedNoteContentUnsavedChanges) {
+            try {
+                await UnsavedChangesModal.openModal();
+            } catch (err) {
+                console.log("Discarting changes...");
+                return;
+            }
+        }
         this.foldersService.selectFolder(folderId);
         await this.notesService.loadRelatedNotes(folderId);
         this.notesService.clearCurrentNoteSelection();
@@ -92,7 +107,15 @@ class App extends Vue {
         this.foldersService.createFolder(folderName);
     }
 
-    public selectNote(id: number) {
+    public async selectNote(id: number) {
+        if (this.notesService.selectedNote && this.notesService.hasSeletedNoteContentUnsavedChanges) {
+            try {
+                await UnsavedChangesModal.openModal();
+            } catch (err) {
+                console.log("Discarting changes...");
+                return;
+            }
+        }
         this.notesService.selectNote(id);
     }
 

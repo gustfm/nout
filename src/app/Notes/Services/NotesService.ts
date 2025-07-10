@@ -46,12 +46,12 @@ export default class NotesService {
     public selectNote(id: Number) {
         try {
             if (!id) {
-                this.selectedNote = null;
-                this.updateUnchangedContent(null);
+                this.selectedNote = undefined;
+                this.updateUnchangedContent(undefined);
                 return;
             }
             const note = this.notes.find((note: Note) => note.id === id);
-            this.selectedNote = note;
+            this.selectedNote = JSON.parse(JSON.stringify(note));
             this.updateUnchangedContent(note.content);
         } catch (err) {
             console.error(err);
