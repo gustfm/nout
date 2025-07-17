@@ -6,6 +6,7 @@ import { VitePlugin } from "@electron-forge/plugin-vite";
 import { FusesPlugin } from "@electron-forge/plugin-fuses";
 import { FuseV1Options, FuseVersion } from "@electron/fuses";
 import path from "path";
+import fs from "fs";
 import { cp, mkdir } from "fs/promises";
 
 const config: ForgeConfig = {
@@ -27,6 +28,7 @@ const config: ForgeConfig = {
         new MakerDeb({
             options: {
                 icon: path.join(__dirname, "assets", "icon.png"),
+                
             },
         }),
     ],
@@ -83,6 +85,20 @@ const config: ForgeConfig = {
                     });
                 })
             );
+        },
+        async postMake(_, buildResult) {
+            for (const result of buildResult) {
+                if (result.platform === "linux" && result.arch === "x64" && result.artifacts) {
+                    for (const artifactPath of result.artifacts) {
+                        if (artifactPath.endsWith(".deb")) {
+                            const customName = `nout.deb`;
+                            const newPath = path.join(path.dirname(artifactPath), customName);
+                            fs.renameSync(artifactPath, newPath);
+                        }
+                    }
+                }
+            }
+            return buildResult;
         },
     },
 };
