@@ -116,7 +116,7 @@ class App extends Vue {
                 return;
             }
         }
-        this.notesService.selectNote(id);
+        await this.notesService.selectNote(id);
     }
 
     public changeFolderEmote(folderId: number, folderIcon: string) {

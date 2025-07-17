@@ -27,6 +27,7 @@ const notesRepository = new NotesRepository(myValue);
 const notesRepositoryMethods: Omit<typeof notesRepository, "getDb"> = {
     getAll: () => notesRepository.getAll(),
     getAllById: (folderId: number) => notesRepository.getAllById(folderId),
+    getNote: (noteId: number) => notesRepository.getNote(noteId),
     create: (note: Note) => notesRepository.create(note),
     findOne: (id: number) => notesRepository.findOne(id),
     deleteOne: (id: number) => notesRepository.deleteOne(id),

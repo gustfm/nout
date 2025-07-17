@@ -36,6 +36,7 @@ export default class NotesService {
         try {
             await this.notesRepository.save(this.selectedNote.id, this.selectedNote.title, this.selectedNote.content);
             this.updateUnchangedContent(this.selectedNote.content);
+            await this.loadRelatedNotes(this.selectedNote.folderId);
         } catch (err) {
             console.error(err);
         } finally {
@@ -43,16 +44,15 @@ export default class NotesService {
         }
     }
 
-    public selectNote(id: Number) {
+    public async selectNote(id: number) {
         try {
             if (!id) {
-                this.selectedNote = undefined;
-                this.updateUnchangedContent(undefined);
+                this.selectedNote = null;
+                this.updateUnchangedContent(null);
                 return;
             }
-            const note = this.notes.find((note: Note) => note.id === id);
-            this.selectedNote = JSON.parse(JSON.stringify(note));
-            this.updateUnchangedContent(note.content);
+            this.selectedNote = await this.notesRepository.getNote(id);
+            this.updateUnchangedContent(this.selectedNote.content);
         } catch (err) {
             console.error(err);
         }

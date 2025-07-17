@@ -17,8 +17,16 @@ export default class NotesRepository {
 
     public async getAllById(folderId: number): Promise<Note[]> {
         const db = await this.getDb();
-        const result: NoteDto[] = await db.all(`SELECT * FROM notes WHERE folder_id = ${folderId} ORDER BY created_at DESC`);
+        const result: NoteDto[] = await db.all(
+            `SELECT * FROM notes WHERE folder_id = ${folderId} ORDER BY created_at DESC`
+        );
         return result.map((item) => new Note(item));
+    }
+
+    public async getNote(noteId: number): Promise<Note> {
+        const db = await this.getDb();
+        const result: NoteDto = await db.get("SELECT * FROM notes WHERE id = ?", noteId);
+        return new Note(result);
     }
 
     public async create(note: Note): Promise<Note> {
