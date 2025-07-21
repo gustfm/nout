@@ -58,4 +58,14 @@ export default class NotesRepository {
         const db = await this.getDb();
         await db.run("DELETE FROM notes WHERE id = ?", id);
     }
+
+    public async handlePin(id: number): Promise<void> {
+        const db = await this.getDb();
+        await db.run("UPDATE notes SET is_fixed = true WHERE id = ?", id);
+    }
+
+    public async handleUnpin(id: number): Promise<void> {
+        const db = await this.getDb();
+        await db.run("UPDATE notes SET is_fixed = false WHERE id = ?", id);
+    }
 }

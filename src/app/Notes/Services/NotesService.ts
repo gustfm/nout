@@ -1,6 +1,7 @@
 import { orderBy } from "lodash";
 import NotesRepository from "src/repositories/NotesRepository";
 import Note from "../Models/Note";
+import { sortNotes } from "../../Common/Utils/Utils";
 
 export default class NotesService {
     public notes: Array<Note> = [];
@@ -16,6 +17,12 @@ export default class NotesService {
             return false;
         }
         return this.unchangedSelectedNoteContent !== this.selectedNote?.content;
+    }
+
+    public get filteredNotes(): Note[] {
+        const pinnedNotes = this.notes.filter((note) => note.isFixed);
+        const unpinnedNotes = this.notes.filter((note) => !note.isFixed);
+        return [...sortNotes(pinnedNotes), ...sortNotes(unpinnedNotes)];
     }
 
     public async loadRelatedNotes(folderId: number) {
@@ -71,11 +78,24 @@ export default class NotesService {
         this.selectedNote = null;
     }
 
+    public async handlePin(id: number): Promise<void> {
+        const note = this.notes.find((note) => note.id === id);
+        await this.notesRepository.handlePin(id);
+        await this.loadRelatedNotes(note.folderId);
+    }
+
+    public async handleUnpin(id: number): Promise<void> {
+        const note = this.notes.find((note) => note.id === id);
+        await this.notesRepository.handleUnpin(id);
+        await this.loadRelatedNotes(note.folderId);
+    }
+
     private generateNote(folderId: number): Note {
         return {
             title: "",
             content: "",
             folderId,
+            isFixed: false,
         };
     }
 }

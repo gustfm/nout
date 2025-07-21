@@ -9,12 +9,19 @@ export interface ComposableDropdown {
     updateDropdownPosition(): void;
 }
 
-export function useDropdown(dropdownButton: HTMLElement, dropdownMenu: HTMLElement): ComposableDropdown {
+export function useDropdown(
+    dropdownButton: HTMLElement,
+    dropdownMenu: HTMLElement,
+    direction: "bottom" | "right" = "bottom"
+): ComposableDropdown {
     const isOpen = ref<boolean>(false);
     const dropdownPosition = ref<CSSProperties>({});
 
     const toggleDropdown = (): void => {
         isOpen.value = !isOpen.value;
+        if (isOpen.value) {
+            updateDropdownPosition();
+        }
     };
 
     const handleClickOutside = (event: MouseEvent): void => {
@@ -43,9 +50,16 @@ export function useDropdown(dropdownButton: HTMLElement, dropdownMenu: HTMLEleme
         const button = dropdownButton as HTMLElement;
         const buttonRect = button.getBoundingClientRect();
 
-        dropdownPosition.value = {
-            top: `${buttonRect.bottom + window.scrollY}px`,
-        };
+        if (direction === "bottom") {
+            dropdownPosition.value = {
+                top: `${buttonRect.bottom + window.scrollY}px`,
+            };
+        } else if (direction === "right") {
+            const style = window.getComputedStyle(button, null);
+            dropdownPosition.value = {
+                top: `${buttonRect.top - parseFloat(style.marginBottom) + window.scrollY}px`,
+            };
+        }
     };
 
     return { isOpen, dropdownPosition, toggleDropdown, createListeners, destroyListeners, updateDropdownPosition };

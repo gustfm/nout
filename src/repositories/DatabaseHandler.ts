@@ -17,6 +17,7 @@ export default class DatabaseHandler {
                 title TEXT,
                 created_at DATE DEFAULT current_date,
                 folder_id INTEGER,
+                is_fixed BOOLEAN DEFAULT false,
 
                 FOREIGN KEY (folder_id) REFERENCES folders(id)
             );
@@ -27,6 +28,14 @@ export default class DatabaseHandler {
                 name VARCHAR(240)
             );
 
+            CREATE TRIGGER IF NOT EXISTS update_updated_at
+            AFTER UPDATE ON notes
+            FOR EACH ROW
+            BEGIN
+                UPDATE notes
+                SET updated_at = CURRENT_DATE
+                WHERE id = OLD.id;
+            END;
             `
         );
     }

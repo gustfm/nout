@@ -8,12 +8,14 @@
             @changeFolderEmote="changeFolderEmote"
         />
         <NotesList
-            :notes="notesService.notes"
+            :notes="notesService.filteredNotes"
             :selectedNote="selectedNote"
             :isLoadingNotes="isLoadingNotes"
             :hasSeletedNoteContentUnsavedChanges="notesService.hasSeletedNoteContentUnsavedChanges"
             @selectNote="selectNote"
             @createNote="createNote"
+            @handlePin="handlePin"
+            @handleUnpin="handleUnpin"
         />
         <NoteContainer
             :selectedNote="selectedNote"
@@ -132,6 +134,14 @@ class App extends Vue {
         const { selectedFolder } = this.foldersService;
         await this.notesService.deleteNote(noteId);
         await this.notesService.loadRelatedNotes(selectedFolder.id);
+    }
+
+    public async handlePin(id: number) {
+        await this.notesService.handlePin(id);
+    }
+
+    public async handleUnpin(id: number) {
+        await this.notesService.handleUnpin(id);
     }
 }
 

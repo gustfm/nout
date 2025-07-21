@@ -9,8 +9,11 @@
                 :key="note?.id"
                 :isSelected="selectedNote?.id === note?.id"
                 :note="note"
+                :isNoteFixed="note.isFixed"
                 :hasSeletedNoteContentUnsavedChanges="hasSeletedNoteContentUnsavedChanges"
                 @selectNote="selectNote"
+                @handlePin="handlePin"
+                @handleUnpin="handleUnpin"
             />
         </ul>
     </div>
@@ -26,7 +29,7 @@ import Skeleton from "../Common/Components/Skeleton.vue";
 
 @Component({
     components: { HeaderNotesList, NoteItem, Empty, Skeleton },
-    emits: ["selectNote"],
+    emits: ["selectNote", "handlePin"],
 })
 class NotesList extends Vue {
     @Prop() public notes: Array<Note>;
@@ -44,6 +47,14 @@ class NotesList extends Vue {
 
     public createNote(): void {
         this.$emit("createNote");
+    }
+
+    public handlePin(id: number) {
+        this.$emit("handlePin", id);
+    }
+
+    public handleUnpin(id: number) {
+        this.$emit("handleUnpin", id);
     }
 }
 
